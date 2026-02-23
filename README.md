@@ -13,7 +13,8 @@ In their existing market, the sales team has classified all customers into 4 seg
 You are required to help the manager to predict the right group of the new customers.
 
 ## Neural Network Model
-<img width="1209" height="799" alt="image" src="https://github.com/user-attachments/assets/2a210679-0a23-4590-9a97-84b5380f5907" />
+
+<img width="832" height="834" alt="image" src="https://github.com/user-attachments/assets/eb33c3b3-69b8-437a-82b4-e892642f907b" />
 
 ## DESIGN STEPS
 
@@ -33,43 +34,40 @@ Evaluate the trained model using test data and use it to predict the customer se
 ### Register Number: 212224230263
 
 ```python
-# Define Neural Network(Model1)
 class PeopleClassifier(nn.Module):
     def __init__(self, input_size):
         super(PeopleClassifier, self).__init__()
-        self.fc1 = nn.Linear(input_size, 32)
-        self.fc2 = nn.Linear(32, 16)
-        self.fc3 = nn.Linear(16, 8)
-        self.fc4 = nn.Linear(8, 4)
+        self.fc1=nn.Linear(input_size,16)
+        self.fc2=nn.Linear(16,8)
+        self.fc3=nn.Linear(8,4)
+
+
     def forward(self, x):
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = self.fc4(x)
-        return x
+      x=F.relu(self.fc1(x))
+      x=F.relu(self.fc2(x))
+      x=self.fc3(x)
+      return x
+       
 
 ```
-
 ```python
 # Initialize the Model, Loss Function, and Optimizer
-model = PeopleClassifier(input_size=X_train.shape[1])
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(),lr=0.001)
-train_model(model, train_loader, criterion, optimizer, epochs=100)
+model =PeopleClassifier(input_size=X_train.shape[1])
+criterion =nn.CrossEntropyLoss()
+optimizer =optim.Adam(model.parameters(), lr=0.01)
 
 ```
-
 ```python
-#function to train the model
 def train_model(model, train_loader, criterion, optimizer, epochs):
+   for epoch in range(epochs):
     model.train()
-    for epoch in range(epochs):
-        for inputs, labels in train_loader:
-          optimizer.zero_grad()
-          outputs=model(inputs)
-          loss=criterion(outputs, labels)
-          loss.backward()
-          optimizer.step()
+    for X_batch, y_batch in train_loader:
+      optimizer.zero_grad()
+      outputs = model(X_batch)
+      loss = criterion(outputs, y_batch)
+      loss.backward ()
+      optimizer.step()
+
     if (epoch + 1) % 10 == 0:
         print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')
 ```
@@ -84,17 +82,23 @@ def train_model(model, train_loader, criterion, optimizer, epochs):
 ## OUTPUT
 ### Confusion Matrix
 
-<img width="811" height="590" alt="image" src="https://github.com/user-attachments/assets/6f77944f-5329-4013-a77d-1bcfa2a5ed4f" />
+<img width="880" height="581" alt="image" src="https://github.com/user-attachments/assets/5b5d7a6a-6b54-4a87-94da-e1c62f554efd" />
+
 
 
 
 ### Classification Report
 
-<img width="1187" height="620" alt="image" src="https://github.com/user-attachments/assets/6b85ee7f-5127-4f11-bf5b-ca817adf0ee2" />
+<img width="1728" height="585" alt="image" src="https://github.com/user-attachments/assets/04904250-1bba-4166-a4ae-63b5adb6dfda" />
+
+
 
 ### New Sample Data Prediction
 
-<img width="1233" height="345" alt="image" src="https://github.com/user-attachments/assets/67e20d6e-f347-4b60-99f9-6bab2fdfe957" />
+<img width="1090" height="386" alt="image" src="https://github.com/user-attachments/assets/b04373a3-c092-46b4-a785-1c2b2db73925" />
+
+
+
 
 ## RESULT
 
